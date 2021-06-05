@@ -1,0 +1,86 @@
+﻿* {
+    max-width: 500px;
+    margin: auto;
+}
+
+
+div {
+    border-radius: 3px;
+}
+
+#header {
+    height: 50px;
+    width: 100%;
+    background-color: #FFC0CB;
+    position: fixed;
+    z-index: 1;
+}
+
+#title {
+    margin-left: 3%;
+}
+
+#footer {
+    height: 50px;
+    width: 100%;
+    background-color: #FFC0CB;
+    clear: both;
+    position: relative;
+}
+
+.left {
+    height: 800px;
+    width: 50px;
+    background-color: #EE82EE;
+    float: left;
+    position: fixed;
+}
+
+.right {
+    height: 800px;
+    width: 50px;
+    background-color: #EE82EE;
+    float: right;
+    position: inherit;
+}
+
+.stuff {
+    display: inline-block;
+    margin-top: 5px;
+    margin-left: 50px;
+    width: 75%;
+    height: 800px;
+}
+
+p,
+li {
+    font-family: 'Comic Sans MS';
+}
+
+.head {
+    font-size: 18px;
+}
+
+#name {
+    font-family: Sacramento;
+    float: right;
+    margin-top: 10px;
+    margin-right: 4%;
+}
+
+a {
+    color: deeppink;
+    text-decoration: none;
+}
+
+@media only screen and (max-width: 435px) {
+    .left,
+    .right {
+        display: none;
+    }
+
+    .stuff {
+        width: 100%;
+        margin-left: 10px;
+    }
+}
