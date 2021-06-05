@@ -47,14 +47,24 @@ namespace VC_MVC.Controllers
         public ViewResult DemoChart()
         {
             string[] ChartLabels = new string[] { "Africa", "Asia", "Europe", "Latin America", "North America" };
-            int[] ChartData = new int[] { 2478, 5267, 734, 784, 433 };
+            int[] ChartYoungData = new int[] { 2478, 5267, 734, 784, 433 };
+            int[] ChartOlderData = new int[] { 1478, 4267, 334, 284, 333 };
 
             ChartModel Model = new ChartModel
             {
-                ChartType = "pie",
-                Labels = String.Join(",", ChartLabels.Select(d => "'" + d + "'")),
-                Data = String.Join(",", ChartData.Select(d => d)),
-                Title = "Predicted world population (millions) in 2050"
+                Charts = new List<Chart>
+                {
+                    new Chart{
+                    ChartType = "pie",
+                    Labels = String.Join(",", ChartLabels.Select(d => "'" + d + "'")),
+                    Data = String.Join(",", ChartOlderData.Select(d => d)),
+                    Title = "Predicted world older population (millions) in 2050" },
+                    new Chart{
+                    ChartType = "bar",
+                    Labels = String.Join(",", ChartLabels.Select(d => "'" + d + "'")),
+                    Data = String.Join(",", ChartYoungData.Select(d => d)),
+                    Title = "Predicted world younger population (millions) in 2050" }
+                }
             };
 
             return View(Model);

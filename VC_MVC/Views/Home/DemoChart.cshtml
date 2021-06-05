@@ -17,18 +17,18 @@
 <body>
     <h1> Pie chart example</h1>
 
-    <canvas id="piechartexample" width="600" height="350"></canvas>
+    <canvas id="piechartexample" width="300" height="250"></canvas>
 
     <script>
     new Chart(document.getElementById("piechartexample"), {
-      type: '@Model.ChartType',
+      type: '@Model.Charts[0].ChartType',
       data: {
-        labels: [@Html.Raw(@Model.Labels)],
+        labels: [@Html.Raw(@Model.Charts[0].Labels)],
         datasets: [
           {
-            label: "Population (millions)",
+            label: "Older Population (millions)",
             backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
-            data: [@Model.Data]
+            data: [@Model.Charts[0].Data]
           }
         ]
       },
@@ -36,7 +36,35 @@
         legend: { display: false },
         title: {
           display: true,
-          text: '@Model.Title'
+          text: '@Model.Charts[0].Title'
+        }
+      }
+    });
+
+    </script>
+    <br/>
+    <h1> Bar chart example</h1>
+
+    <canvas id="barchartexample" width="300" height="250"></canvas>
+
+    <script>
+    new Chart(document.getElementById("Barchartexample"), {
+      type: '@Model.Charts[1].ChartType',
+      data: {
+        labels: [@Html.Raw(@Model.Charts[1].Labels)],
+        datasets: [
+          {
+            label: "Population (millions)",
+            backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+            data: [@Model.Charts[1].Data]
+          }
+        ]
+      },
+      options: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: '@Model.Charts[1].Title'
         }
       }
     });
