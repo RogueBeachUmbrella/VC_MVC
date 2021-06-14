@@ -44,6 +44,20 @@ namespace VC_MVC.Controllers
             return View(employee);
         }
 
+        public IActionResult Contact()
+        {
+
+            var contact = new GuestContact
+            {             
+                Name = "VibhaNa",
+                Email = "vibhana@usf.edu",
+                Phone = "7776668888"
+            };
+
+            return View(contact);
+        }
+
+
         public ViewResult DemoChart()
         {
             string[] ChartLabels = new string[] { "Africa", "Asia", "Europe", "Latin America", "North America" };
@@ -109,11 +123,11 @@ namespace VC_MVC.Controllers
             return View(parks);
         }
 
-
         public IActionResult Privacy()
         {
             return View();
         }
+       
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
