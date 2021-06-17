@@ -28,10 +28,12 @@ namespace VC_MVC
         {
             // Setup EF connection
             // https://stackoverflow.com/a/43098152/1385857
-            IServiceCollection serviceCollection = services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["Data:IEXTrading:ConnectionString"]));
+            var connectionString = Configuration["ConnectionString"];
+            services.AddDbContext<ParkContext>(options =>
+                options.UseSqlServer(connectionString));
+
 
             // added from MVC template
-            //services.AddMvc();
             // https://stackoverflow.com/a/58772555/1385857
             services.AddMvc(option => option.EnableEndpointRouting = false);
             services.AddControllersWithViews();
@@ -42,7 +44,7 @@ namespace VC_MVC
         {
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
-                var context = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                var context = serviceScope.ServiceProvider.GetRequiredService<ParkContext>();
                 context.Database.EnsureCreated();
             }
             if (env.IsDevelopment())
