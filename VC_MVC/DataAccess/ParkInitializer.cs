@@ -19,9 +19,28 @@ namespace VC_MVC.DataAccess
                 if (!context.Parks.Any())
                 {
                     List<Park> parks = ParkFile().data;
-                    context.Parks.AddAsync(parks.First());
-                    //context.Parks.AddRangeAsync(parks).Wait();
-                    context.SaveChangesAsync().Wait();
+                    foreach (var park in parks)
+                    {
+                        Park tempPark = new Park();
+                        tempPark.ParkId = park.ParkId;
+                        tempPark.url = park.url;
+                        tempPark.fullName = park.fullName;
+                        tempPark.parkCode = park.parkCode;
+                        tempPark.description = park.description;
+                        tempPark.latitude = park.latitude;
+                        tempPark.longitude = park.longitude;
+                        tempPark.latLong = park.latLong;
+                        tempPark.states = park.states;
+                        tempPark.directionsInfo = park.directionsInfo;
+                        tempPark.directionsUrl = park.directionsUrl;
+                        tempPark.weatherInfo = park.weatherInfo;
+                        tempPark.name = park.name;
+                        tempPark.designation = park.designation;
+                        context.Parks.Add(tempPark);
+                        tempPark = null;
+                    }
+                    context.SaveChanges();
+                
                 }
                 //if (!context.Activities.Any())
                 //{
