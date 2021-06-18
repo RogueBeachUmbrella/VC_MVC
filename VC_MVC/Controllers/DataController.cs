@@ -10,17 +10,17 @@ namespace VC_MVC.Controllers
 {
     public class DataController : Controller
     {
-        //private readonly ApplicationDbContext _context;
-        //
-        //public DataController(ApplicationDbContext context)
-        //{
-        //    _context = context;
-        //}
-        //
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
+        private readonly ParkContext _context;
+        
+        public DataController(ParkContext context)
+        {
+            _context = context;
+        }
+        
+        public IActionResult Index()
+        {
+            return View();
+        }
 
         //public async Task<ViewResult> DataCrud()
         //{

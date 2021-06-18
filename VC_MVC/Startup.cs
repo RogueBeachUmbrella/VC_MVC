@@ -46,6 +46,7 @@ namespace VC_MVC
             {
                 var context = serviceScope.ServiceProvider.GetRequiredService<ParkContext>();
                 context.Database.EnsureCreated();
+                ParkDbInitializer.Initialize(context);
             }
             if (env.IsDevelopment())
             {
