@@ -14,6 +14,8 @@ namespace VC_MVC.Models
     {
         public List<Park> parklist { get; set; }
         public Park park { get; set; }
+
+        public string ParkId { get; set; }
         public string mapquestkey { get; set; }
         public string mapquesturl { get; set; }
     }

@@ -15,37 +15,69 @@
 
 }
 
-<h2>@ViewBag.message</h2>
-<form asp-controller="Home" asp-action="Park" method="post" name="parkForm">
-    <select asp-for="park.ParkId" name="ParkId" id="ParkId" form="parkForm">
-        @foreach (VC_MVC.Models.Park park in Model.parklist)
-        {
-            if (park.ParkId == Model.park.ParkId)
-            {
-                <option value="@park.ParkId" selected>[@park.states] - @park.fullName</option>
-            }
-            else
-            {
-                <option value="@park.ParkId">[@park.states] - @park.fullName</option>
-            }
-        }
-    </select>
-    <input type="submit" name="submit" />
-    
-</form>
+
+<div class="text-lg-center">
+    <h2 class="display-4">@ViewBag.message</h2>
+</div>
+
+<div class="text-center">
+    <div class="form-control-sm">
+        <form asp-controller="Home" asp-action="Park" method="post" name="parkForm2">
+
+            <div class="form-group">
+                <label asp-for="ParkId" class="form-text text-muted">Please select US Park</label>
+                <select asp-for="ParkId" id="ParkId" class="custom-select-sm">
+                    @foreach (VC_MVC.Models.Park park in Model.parklist)
+                    {
+                        if (park.ParkId == Model.park.ParkId)
+                        {
+                            <option value="@park.ParkId" selected>[@park.states] - @park.fullName</option>
+                        }
+                        else
+                        {
+                            <option value="@park.ParkId">[@park.states] - @park.fullName</option>
+                        }
+                    }
+                </select>
+                @*<small class="form-text text-muted">Please select US Park</small>*@
+                <button type="submit" class="btn btn-sm btn-outline-secondary">Submit</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+<p />
+
+<br />
+<br />
+
+<div class="text-center">
+    <h1 class="display-5">@Model.park.name, @Model.park.states</h1>
+    <h3 class="display-5">@Model.park.designation</h3>
+    @*<h2 class="display-5">@Model.park.states</h2>*@
+    <p><a href="@Model.park.url" target="_blank">@Model.park.url</a></p>
+</div>
+
+<div class="text-left">
+    <h2 class="display-5">Description</h2>
+    <p>@Model.park.description</p>
+</div>
+
+<div class="text-left">
+    <h2 class="display-5">Location</h2>
+    <p><img src="@img_source" alt="@img_alt"></p>
+</div>
+
+<div class="text-left">
+    <h2 class="display-5">Directions</h2>
+    <p>@Model.park.directionsInfo</p>
+    <p>Plan your visit: <a href="@Model.park.directionsUrl" target="_blank">@Model.park.directionsUrl</a></p>
+</div>
 
 
-
-
-<h3>@Model.park.fullName</h3>
-<p>@Model.park.description</p>
-<p>@Model.park.url</p>
-
-
-<!--  MapQuest Static Map -->
-<img src="@img_source"
-     alt="@img_alt">
-
-
+<div class="text-left">
+    <h2 class="display-5">Weather</h2>
+    <p>@Model.park.weatherInfo</p>
+</div>
 
 

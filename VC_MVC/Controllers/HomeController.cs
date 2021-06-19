@@ -76,10 +76,11 @@ namespace VC_MVC.Controllers
 
         public IActionResult Park()
         {
-            ViewBag.Message = "Welcome to The American National Parks!";
+            ViewBag.Message = "US National Parks";
             ParkViewModel mymodel = new ParkViewModel();
             mymodel.park = _context.Parks.First();
             mymodel.parklist = _context.Parks.OrderBy(p => p.states).ThenBy(p => p.fullName).ToList();
+            mymodel.ParkId = mymodel.park.ParkId;
             mymodel.mapquestkey = MAPQUEST_KEY;
             mymodel.mapquesturl = MAPQUEST_BASE_URL;
             return View(mymodel);
@@ -89,10 +90,10 @@ namespace VC_MVC.Controllers
         [HttpPost]
         public IActionResult Park(ParkViewModel mymodel)
         {
-            ViewBag.Message = "Welcome to The American National Parks!";
+            ViewBag.Message = "US National Parks";
             //ParkViewModel mymodel = new ParkViewModel();
 
-            mymodel.park = _context.Parks.Find(mymodel.park.ParkId);
+            mymodel.park = _context.Parks.Find(mymodel.ParkId);
             mymodel.parklist = _context.Parks.OrderBy(p => p.states).ThenBy(p => p.fullName).ToList();
             mymodel.mapquestkey = MAPQUEST_KEY;
             mymodel.mapquesturl = MAPQUEST_BASE_URL;
