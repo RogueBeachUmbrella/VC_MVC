@@ -1,14 +1,51 @@
-﻿@model VC_MVC.Models.Parks
+﻿@model VC_MVC.Models.ParkViewModel
 
 @{
     ViewData["Title"] = "Index";
+    string map_banner = "banner=" + Model.park.fullName.Replace(" ", "+") + "|sm";
+    string map_locations = "locations=" + Model.park.latitude + "," + Model.park.longitude;
+    string map_scalebar = "scalebar=true";
+    string map_type = "type=map";
+    string map_zoom = "zoom=6";
+    string map_size = "size=600,400@2x";
+    string mapquest_key = "key=" + Model.mapquestkey;
+    string img_source = Model.mapquesturl + mapquest_key + "&" + map_locations + "&" + map_size + "&" + map_scalebar + "&" + map_zoom + "&" + map_banner + "&" + map_type;
+    string img_alt = Model.park.fullName;
+    string ParkID = Model.park.ParkId;
+
 }
 
-<h2>Index</h2>
-@foreach (VC_MVC.Models.Park park in Model.data)
-{
+<h2>@ViewBag.message</h2>
+<form asp-controller="Home" asp-action="Park" method="post" name="parkForm">
+    <select asp-for="park.ParkId" name="ParkId" id="ParkId" form="parkForm">
+        @foreach (VC_MVC.Models.Park park in Model.parklist)
+        {
+            if (park.ParkId == Model.park.ParkId)
+            {
+                <option value="@park.ParkId" selected>[@park.states] - @park.fullName</option>
+            }
+            else
+            {
+                <option value="@park.ParkId">[@park.states] - @park.fullName</option>
+            }
+        }
+    </select>
+    <input type="submit" name="submit" />
+    
+</form>
 
-    @(park.parkCode + " " + park.fullName + " " + park.latLong)
-    <br />
-}
+
+
+
+<h3>@Model.park.fullName</h3>
+<p>@Model.park.description</p>
+<p>@Model.park.url</p>
+
+
+<!--  MapQuest Static Map -->
+<img src="@img_source"
+     alt="@img_alt">
+
+
+
 

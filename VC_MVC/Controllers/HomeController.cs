@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
@@ -8,21 +9,35 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using VC_MVC.Models;
+using VC_MVC.DataAccess;
 
 namespace VC_MVC.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+
+        public ParkContext _context;
+
+        public HomeController(ParkContext context)
+        {
+            _context = context;
+        }
+
+
+
         HttpClient httpClient;
         static string API_KEY = "Vr70dB2Pow7KCrTcaYZPIeB5ENkAl7omMCzTLuXZ";
         static string BASE_URL = "https://developer.nps.gov/api/v1/";
 
+        static string MAPQUEST_KEY = "u4m3d6bHKG95zCg5v9YH9uWULp6D8W5D";
+        static string MAPQUEST_BASE_URL = "https://open.mapquestapi.com/staticmap/v5/map?";
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
+
+        //public HomeController(ILogger<HomeController> logger)
+        //{
+        //    _logger = logger;
+        //}
 
         public IActionResult Index(int id)
         {
@@ -30,32 +45,6 @@ namespace VC_MVC.Controllers
         }
 
 
-        public IActionResult Employee()
-        {
-
-            var employee = new Employee
-            {
-                EmployeeId = 123,
-                Name = "VibhaNa",
-                Email = "vibhana@usf.edu",
-                Phone = "7776668888"
-            };
-
-            return View(employee);
-        }
-
-        public IActionResult Contact()
-        {
-
-            var contact = new GuestContact
-            {             
-                Name = "VibhaNa",
-                Email = "vibhana@usf.edu",
-                Phone = "7776668888"
-            };
-
-            return View(contact);
-        }
 
 
         public ViewResult DemoChart()
@@ -83,51 +72,45 @@ namespace VC_MVC.Controllers
 
             return View(Model);
         }
+        
+
         public IActionResult Park()
-
         {
-            httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Accept.Clear();
-            httpClient.DefaultRequestHeaders.Add("X-Api-Key", API_KEY);
-            httpClient.DefaultRequestHeaders.Accept.Add(
-                new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-            string NATIONAL_PARK_API_PATH = BASE_URL + "parks?parkCode=acad&api_key=Vr70dB2Pow7KCrTcaYZPIeB5ENkAl7omMCzTLuXZ";
-            string parksData = "";
-
-            Parks parks = null;
-
-            httpClient.BaseAddress = new Uri(NATIONAL_PARK_API_PATH);
-
-            try
-            {
-                HttpResponseMessage response = httpClient.GetAsync(NATIONAL_PARK_API_PATH).GetAwaiter().GetResult();
-
-                if (response.IsSuccessStatusCode)
-                {
-                    parksData = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-                }
-
-                if (!parksData.Equals(""))
-                {
-                    // JsonConvert is part of the NewtonSoft.Json Nuget package
-                    parks = JsonConvert.DeserializeObject<Parks>(parksData);
-                }
-            }
-            catch (Exception e)
-            {
-                // This is a useful place to insert a breakpoint and observe the error message
-                Console.WriteLine(e.Message);
-            }
-
-            return View(parks);
+            ViewBag.Message = "Welcome to The American National Parks!";
+            ParkViewModel mymodel = new ParkViewModel();
+            mymodel.park = _context.Parks.First();
+            mymodel.parklist = _context.Parks.OrderBy(p => p.states).ThenBy(p => p.fullName).ToList();
+            mymodel.mapquestkey = MAPQUEST_KEY;
+            mymodel.mapquesturl = MAPQUEST_BASE_URL;
+            return View(mymodel);
         }
+
+
+        [HttpPost]
+        public IActionResult Park(ParkViewModel mymodel)
+        {
+            ViewBag.Message = "Welcome to The American National Parks!";
+            //ParkViewModel mymodel = new ParkViewModel();
+
+            mymodel.park = _context.Parks.Find(mymodel.park.ParkId);
+            mymodel.parklist = _context.Parks.OrderBy(p => p.states).ThenBy(p => p.fullName).ToList();
+            mymodel.mapquestkey = MAPQUEST_KEY;
+            mymodel.mapquesturl = MAPQUEST_BASE_URL;
+            return View(mymodel);
+        }
+
+
 
         public IActionResult Privacy()
         {
             return View();
         }
-       
+
+        public IActionResult Carla()
+        {
+            return View();
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

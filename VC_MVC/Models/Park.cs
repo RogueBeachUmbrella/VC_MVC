@@ -8,6 +8,15 @@ using System.Threading.Tasks;
 
 namespace VC_MVC.Models
 {
+    
+    [NotMapped]
+    public class ParkViewModel
+    {
+        public List<Park> parklist { get; set; }
+        public Park park { get; set; }
+        public string mapquestkey { get; set; }
+        public string mapquesturl { get; set; }
+    }
 
     public class Park
     {
