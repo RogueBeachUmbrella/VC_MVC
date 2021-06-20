@@ -17,5 +17,16 @@ namespace VC_MVC.DataAccess
         public DbSet<Operatinghour> OperatingHours { get; set; }
         public DbSet<Address> Address { get; set; }
         public DbSet<Image> Images { get; set; }
+        public DbSet<Reservation> Reservation { get; set; }
+        public DbSet<Visitor> Visitor { get; set; }
+        //public DbSet<Facility> Facility { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Reservation>().HasKey(k => new { k.ParkId, k.VisitorId });
+
+            base.OnModelCreating(modelBuilder);
+        }
+
     }
 }

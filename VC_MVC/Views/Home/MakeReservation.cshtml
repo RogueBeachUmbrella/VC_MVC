@@ -1,0 +1,39 @@
+﻿@using VC_MVC.Models
+
+@model Reservation
+
+
+<form asp-controller="Home" asp-action="MakeReservation" method="post">
+    @if (@Model.Parks != null)
+    {
+        <p>Selected Park: @Model.Parks.name</p>
+    }
+    else
+    {
+        <p>Selected Park:<a href="/Home/Park">Select a park</a> </p>
+    }
+
+    <p>First Name: <input asp-for="Visitors.FirstName" /></p>
+    <p>Last Name: <input asp-for="Visitors.LastName" /></p>
+    <p>User Name: <input asp-for="Visitors.UserName" /></p>
+    <p>Password: <input asp-for="Visitors.Password" /></p>
+    <p>Phone number: <input asp-for="Visitors.PhoneNumber" /></p>
+    <p>Email Id: <input asp-for="Visitors.Email" /></p>
+    <p>Address: <input asp-for="Visitors.Address" /></p>
+    <p>
+        Facility Type:
+        <select class="form-control" id="Parkfacility" name="Parkfacility" asp-for="facility">
+            <option>Picnic Shelter</option>
+            <option>Rental Boat</option>
+            <option>Annual Parking</option>
+            <option>Camp ground</option>
+        </select>
+    </p>
+    <p>Start Date: <input type="date" id="startdate" value="2021-08-01" asp-for="StartDate" /></p>
+    <p>End Date: <input type="date" id="enddate" value="2021-08-10" asp-for="EndDate" /></p>
+
+    <button type="submit" name="reserveit" value="reserveit">Reserve</button>
+
+    <button type="submit" name="cancel" value="cancel">Cancel</button>
+
+</form>

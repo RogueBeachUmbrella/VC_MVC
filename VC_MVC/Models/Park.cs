@@ -48,6 +48,8 @@ namespace VC_MVC.Models
         public string weatherInfo { get; set; }
         public string name { get; set; }
         public string designation { get; set; }
+        public ICollection<Reservation> Reservations { get; set; }
+
     }
 
     public class Contacts
@@ -177,6 +179,35 @@ namespace VC_MVC.Models
         public string altText { get; set; }
         public string caption { get; set; }
         public string url { get; set; }
+    }
+
+    public class Reservation
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public string ReservationId { get; set; }
+        public string VisitorId { get; set; }
+        public string ParkId { get; set; }
+        public string facility { get; set; }
+        public string ReservationNumber { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public Visitor Visitors { get; set; }
+        public Park Parks { get; set; }
+    }
+    public class Visitor
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public string VisitorId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Address { get; set; }
+        public ICollection<Reservation> Reservations { get; set; }
     }
 
 }

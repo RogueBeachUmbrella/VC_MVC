@@ -80,6 +80,7 @@ namespace VC_MVC.Controllers
             ParkViewModel mymodel = new ParkViewModel();
             mymodel.park = _context.Parks.First();
             mymodel.parklist = _context.Parks.OrderBy(p => p.states).ThenBy(p => p.fullName).ToList();
+            TempData["ParkId"] = mymodel.park.ParkId;
             mymodel.ParkId = mymodel.park.ParkId;
             mymodel.mapquestkey = MAPQUEST_KEY;
             mymodel.mapquesturl = MAPQUEST_BASE_URL;
@@ -92,7 +93,7 @@ namespace VC_MVC.Controllers
         {
             ViewBag.Message = "US National Parks";
             //ParkViewModel mymodel = new ParkViewModel();
-
+            TempData["ParkId"] = mymodel.ParkId;
             mymodel.park = _context.Parks.Find(mymodel.ParkId);
             mymodel.parklist = _context.Parks.OrderBy(p => p.states).ThenBy(p => p.fullName).ToList();
             mymodel.mapquestkey = MAPQUEST_KEY;
@@ -102,14 +103,61 @@ namespace VC_MVC.Controllers
 
 
 
-        public IActionResult Privacy()
+        public IActionResult MakeReservation(Reservation reservation, string reserveit, string cancel)
         {
-            return View();
+            if (TempData["ParkId"] != null)
+            {
+                reservation.Parks = _context.Parks.Find(TempData["ParkId"].ToString());
+            }
+            else
+            {
+                return View(reservation);
+            }
+            if (!string.IsNullOrEmpty(reserveit))
+            {
+                var reserve = new Reservation
+                {
+                    ReservationNumber = GenerateRandomNo(),
+                    EndDate = reservation.EndDate,
+                    facility = Request.Form["Parkfacility"].ToString(),
+                    ParkId = TempData["ParkId"].ToString(),
+                    StartDate = reservation.StartDate,
+                    Visitors = new Visitor
+                    {
+                        Address = reservation.Visitors.Address,
+                        Email = reservation.Visitors.Email,
+                        FirstName = reservation.Visitors.FirstName,
+                        LastName = reservation.Visitors.LastName,
+                        Password = reservation.Visitors.Password,
+                        PhoneNumber = reservation.Visitors.PhoneNumber,
+                        UserName = reservation.Visitors.UserName
+
+                    }
+
+                };
+                _context.SaveChangesAsync();
+                ViewBag.Message = "reservation saved successfully!";
+            }
+            if (!string.IsNullOrEmpty(cancel))
+            {
+                ViewBag.Message = "The operation was cancelled!";
+            }  
+
+            return View(reservation);
         }
 
-        public IActionResult Carla()
+       
+        private string GenerateRandomNo()
         {
-            return View();
+            int _min = 1000;
+            int _max = 9999;
+            Random _rdm = new Random();
+            return _rdm.Next(_min, _max).ToString();
+        }
+       
+        public IActionResult ManageReservation(Reservation reservation)
+        {
+            return View(reservation);
         }
 
 
