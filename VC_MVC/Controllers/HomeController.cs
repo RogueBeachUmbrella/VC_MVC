@@ -94,6 +94,7 @@ namespace VC_MVC.Controllers
             ViewBag.Message = "US National Parks";
             //ParkViewModel mymodel = new ParkViewModel();
             TempData["ParkId"] = mymodel.ParkId;
+            TempData.Keep("ParkId");
             mymodel.park = _context.Parks.Find(mymodel.ParkId);
             mymodel.parklist = _context.Parks.OrderBy(p => p.states).ThenBy(p => p.fullName).ToList();
             mymodel.mapquestkey = MAPQUEST_KEY;
@@ -106,13 +107,15 @@ namespace VC_MVC.Controllers
         public IActionResult MakeReservation(Reservation reservation, string reserveit, string cancel)
         {
             if (TempData["ParkId"] != null)
-            {
+            {               
                 reservation.Parks = _context.Parks.Find(TempData["ParkId"].ToString());
+                TempData.Keep("ParkId");
             }
             else
             {
                 return View(reservation);
             }
+
             if (!string.IsNullOrEmpty(reserveit))
             {
                 var reserve = new Reservation
@@ -131,18 +134,19 @@ namespace VC_MVC.Controllers
                         Password = reservation.Visitors.Password,
                         PhoneNumber = reservation.Visitors.PhoneNumber,
                         UserName = reservation.Visitors.UserName
-
                     }
-
                 };
-                _context.SaveChangesAsync();
+                _context.Reservation.Add(reserve);
+
+                _context.SaveChanges();
                 ViewBag.Message = "reservation saved successfully!";
+                ModelState.Clear();
             }
             if (!string.IsNullOrEmpty(cancel))
             {
                 ViewBag.Message = "The operation was cancelled!";
-            }  
-
+                ModelState.Clear();
+            }
             return View(reservation);
         }
 
@@ -154,10 +158,32 @@ namespace VC_MVC.Controllers
             Random _rdm = new Random();
             return _rdm.Next(_min, _max).ToString();
         }
-       
-        public IActionResult ManageReservation(Reservation reservation)
+
+        public IActionResult ManageReservation(Reservation reservation, string edit, string find, string cancel)
         {
-            return View(reservation);
+
+            if (!string.IsNullOrEmpty(edit))
+            {
+                return View(reservation);
+            }
+
+            if (!string.IsNullOrEmpty(cancel))
+            {
+                ViewBag.Message = "The operation was cancelled!";
+                ModelState.Clear();
+                return View(reservation);
+            }
+
+            if (!string.IsNullOrEmpty(find))
+            {
+                reservation = _context.Reservation
+                                   .Where(c => c.ReservationNumber == reservation.ReservationNumber)
+                                   .Where(c => c.Visitors.FirstName == reservation.Visitors.FirstName)
+                                   .First();
+                return View(reservation);
+            }
+             return View(reservation);
+           
         }
 
 

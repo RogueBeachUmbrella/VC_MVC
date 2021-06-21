@@ -19,7 +19,6 @@ namespace VC_MVC.DataAccess
         public DbSet<Image> Images { get; set; }
         public DbSet<Reservation> Reservation { get; set; }
         public DbSet<Visitor> Visitor { get; set; }
-        //public DbSet<Facility> Facility { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
