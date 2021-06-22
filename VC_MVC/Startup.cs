@@ -43,11 +43,11 @@ namespace VC_MVC
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-            /*{
+           {
                 var context = serviceScope.ServiceProvider.GetRequiredService<ParkContext>();
                 context.Database.EnsureCreated();
                 ParkDbInitializer.Initialize(context);
-            }*/
+            } 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

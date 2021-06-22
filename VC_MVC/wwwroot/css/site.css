@@ -6,7 +6,7 @@ html {
 }
 
 /*Set background image*/
-.container {
+body {
     background-image: url('https://www.apple.com/newsroom/images/values/environment/standard/Apple_celebrates-national-parks-glacier-national-park_08242020_big.jpg.large.jpg');
     height: 100%;
     background-position: center;
