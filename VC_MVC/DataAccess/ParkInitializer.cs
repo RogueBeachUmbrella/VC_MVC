@@ -14,7 +14,7 @@ namespace VC_MVC.DataAccess
     {
         public static void Initialize(ParkContext context)
         {
-            using (context)
+            try 
             {
                 if (!context.Parks.Any())
                 {
@@ -68,6 +68,11 @@ namespace VC_MVC.DataAccess
                 //    context.SaveChanges();
                 //}
 
+            }
+            catch (System.Exception e)
+            {
+                // This is a useful place to insert a breakpoint and observe the error message
+                Console.WriteLine(e.Message);
             }
 
 

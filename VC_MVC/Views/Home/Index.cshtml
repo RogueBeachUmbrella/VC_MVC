@@ -1,16 +1,85 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model VC_MVC.Models.ParkViewModel
+
+@{
+    ViewData["Title"] = "My National Park";
+    string map_banner = "banner=" + Model.park.fullName.Replace(" ", "+") + "|sm";
+    string map_locations = "locations=" + Model.park.latitude + "," + Model.park.longitude;
+    string map_scalebar = "scalebar=true";
+    string map_type = "type=map";
+    string map_zoom = "zoom=6";
+    string map_size = "size=900,400";
+    string mapquest_key = "key=" + Model.mapquestkey;
+    string img_source = Model.mapquesturl + mapquest_key + "&" + map_locations + "&" + map_size + "&" + map_scalebar + "&" + map_zoom + "&" + map_banner + "&" + map_type;
+    string img_alt = Model.park.fullName;
+    string ParkID = Model.park.ParkId;
+
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<div class="text-lg-center">
+    <h2 class="display-4">@ViewBag.message</h2>
 </div>
 
-<div class="text-right">
-    <!-- AR -->
-    <p />
-    <a asp-controller="Home" asp-action="DemoChart">DemoChart-Main</a>
-    <p />
-    <a asp-controller="Home" asp-action="DemoChart">AR's link to DemoChart</a>
+<div class="text-center">
+    <div class="form-control-sm">
+        <form asp-controller="Home" asp-action="Index" method="post" name="parkForm2">
+
+            <div class="form-group">
+                <label asp-for="ParkId" class="form-text text-muted">Please select US Park</label>
+                <select asp-for="ParkId" id="ParkId" class="custom-select-sm">
+                    @foreach (VC_MVC.Models.Park park in Model.parklist)
+                    {
+                        if (park.ParkId == Model.park.ParkId)
+                        {
+                            <option value="@park.ParkId" selected>[@park.states] - @park.fullName</option>
+                        }
+                        else
+                        {
+                            <option value="@park.ParkId">[@park.states] - @park.fullName</option>
+                        }
+                    }
+                </select>
+                @*<small class="form-text text-muted">Please select US Park</small>*@
+                <button type="submit" class="btn btn-sm btn-outline-secondary">Submit</button>
+            </div>
+
+        </form>
+    </div>
 </div>
+<p />
+
+<br />
+<br />
+
+<div class="text-center">
+    <h1 class="display-5">@Model.park.name, @Model.park.states</h1>
+    <h3 class="display-5">@Model.park.designation</h3>
+    @*<h2 class="display-5">@Model.park.states</h2>*@
+    <p><a href="@Model.park.url" target="_blank">@Model.park.url</a></p>
+</div>
+
+<div class="text-left">
+    <h2 class="display-5">Description</h2>
+    <p>@Model.park.description</p>
+</div>
+
+<div class="text-left">
+    <h2 class="display-5">Location</h2>
+    <div class="text-center">
+        <p><img src="@img_source" alt="@img_alt"></p>
+    </div>
+</div>
+
+<div class="text-left">
+    <h2 class="display-5">Directions</h2>
+    <p>@Model.park.directionsInfo</p>
+    <p>Plan your visit: <a href="@Model.park.directionsUrl" target="_blank">@Model.park.directionsUrl</a></p>
+</div>
+
+
+<div class="text-left">
+    <h2 class="display-5">Weather</h2>
+    <p>@Model.park.weatherInfo</p>
+</div>
+
+

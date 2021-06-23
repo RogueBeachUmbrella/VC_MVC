@@ -1,0 +1,38 @@
+﻿
+@model ChartModel
+
+<h1> Park Designation Chart</h1>
+
+<div class="text-center">
+    <canvas id="parkdesignations" width="100" height="100"></canvas>
+
+    <script>
+    new Chart(document.getElementById("parkdesignations"), {
+      type: '@Model.Charts[0].ChartType',
+      data: {
+        labels: [@Html.Raw(@Model.Charts[0].Labels)],
+        datasets: [
+          {
+            label: "Older Population (millions)",
+                backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#08BBD0", "#BCBDE9", "#22DEF5", "#8B9035", "#BF5C39",
+                    "#2C70DE", "#62D7DC", "#C4BE5D", "#756470", "#054A34", "#BE6717", "#49E03F", "#1E1051", "#CFADFE", "#63164C",
+                    "#6B2408", "#E8BE11", "#4F5B8B", "#CD41EC", "#2F977A", "#004C87", "#27F6C0", "#00E2F6", "#616583", "#598935",
+                    "#D10464", "#F2BE0B", "#697DF1", "#7C14AB", "#38C212", "#B9D5ED", "#55091F", "#F7BAFE", "#20CEC1", "#008D34",
+                    "#3C45EF", "#6E7E0C", "#9ACD30", "#83D1D6", "#2CD6E1", "#5AB954", "#924B75", "#446A12", "#76EC25", "#B442A5"],
+            borderWidth : 1,
+            data: [@Model.Charts[0].Data]
+          }
+        ]
+      },
+        options: {
+        legend: { display: true },
+        title: {
+          display: true,
+          text: '@Model.Charts[0].Title'
+        }
+      }
+    });
+
+    </script>
+    <br />
+</div>

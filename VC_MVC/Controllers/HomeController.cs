@@ -39,7 +39,7 @@ namespace VC_MVC.Controllers
         //    _logger = logger;
         //}
 
-        public IActionResult Index(int id)
+        public IActionResult DNU_Index(int id)
         {
             return View();
         }
@@ -74,7 +74,7 @@ namespace VC_MVC.Controllers
         }
         
 
-        public IActionResult Park()
+        public IActionResult Index()
         {
             ViewBag.Message = "US National Parks";
             ParkViewModel mymodel = new ParkViewModel();
@@ -89,12 +89,11 @@ namespace VC_MVC.Controllers
 
 
         [HttpPost]
-        public IActionResult Park(ParkViewModel mymodel)
+        public IActionResult Index(ParkViewModel mymodel)
         {
             ViewBag.Message = "US National Parks";
             //ParkViewModel mymodel = new ParkViewModel();
             TempData["ParkId"] = mymodel.ParkId;
-            TempData.Keep("ParkId");
             mymodel.park = _context.Parks.Find(mymodel.ParkId);
             mymodel.parklist = _context.Parks.OrderBy(p => p.states).ThenBy(p => p.fullName).ToList();
             mymodel.mapquestkey = MAPQUEST_KEY;
@@ -104,18 +103,50 @@ namespace VC_MVC.Controllers
 
 
 
+        public ViewResult ParkDesignationChart()
+        {
+            List<string> ChartLabelsList = new List<string>();
+            List<int> ChartDataList = new List<int>();
+
+            var mydesignations = from p in _context.Parks group p by p.designation into c select new { designation = c.Key, count = c.Count() };
+
+            foreach (var item in mydesignations)
+            {
+                ChartLabelsList.Add((String.IsNullOrEmpty(item.designation) ? "--Not Designated--" : item.designation));
+                ChartDataList.Add(item.count);
+            }
+
+            string[] ChartLabels = ChartLabelsList.ToArray();
+            int[] ChartData = ChartDataList.ToArray();
+
+            ChartModel Model = new ChartModel
+            {
+                Charts = new List<Chart>
+                {
+                    new Chart{
+                    ChartType = "pie",
+                    Labels = String.Join(",", ChartLabels.Select(d => "'" + d + "'")),
+                    Data = String.Join(",", ChartData.Select(d => d)),
+                    Title = "US National Park Designations" }
+                }
+            };
+
+            return View(Model);
+        }
+
+
+
+
         public IActionResult MakeReservation(Reservation reservation, string reserveit, string cancel)
         {
             if (TempData["ParkId"] != null)
-            {               
+            {
                 reservation.Parks = _context.Parks.Find(TempData["ParkId"].ToString());
-                TempData.Keep("ParkId");
             }
             else
             {
                 return View(reservation);
             }
-
             if (!string.IsNullOrEmpty(reserveit))
             {
                 var reserve = new Reservation
@@ -134,19 +165,18 @@ namespace VC_MVC.Controllers
                         Password = reservation.Visitors.Password,
                         PhoneNumber = reservation.Visitors.PhoneNumber,
                         UserName = reservation.Visitors.UserName
-                    }
-                };
-                _context.Reservation.Add(reserve);
 
-                _context.SaveChanges();
+                    }
+
+                };
+                _context.SaveChangesAsync();
                 ViewBag.Message = "reservation saved successfully!";
-                ModelState.Clear();
             }
             if (!string.IsNullOrEmpty(cancel))
             {
                 ViewBag.Message = "The operation was cancelled!";
-                ModelState.Clear();
-            }
+            }  
+
             return View(reservation);
         }
 
@@ -158,32 +188,10 @@ namespace VC_MVC.Controllers
             Random _rdm = new Random();
             return _rdm.Next(_min, _max).ToString();
         }
-
-        public IActionResult ManageReservation(Reservation reservation, string edit, string find, string cancel)
+       
+        public IActionResult ManageReservation(Reservation reservation)
         {
-
-            if (!string.IsNullOrEmpty(edit))
-            {
-                return View(reservation);
-            }
-
-            if (!string.IsNullOrEmpty(cancel))
-            {
-                ViewBag.Message = "The operation was cancelled!";
-                ModelState.Clear();
-                return View(reservation);
-            }
-
-            if (!string.IsNullOrEmpty(find))
-            {
-                reservation = _context.Reservation
-                                   .Where(c => c.ReservationNumber == reservation.ReservationNumber)
-                                   .Where(c => c.Visitors.FirstName == reservation.Visitors.FirstName)
-                                   .First();
-                return View(reservation);
-            }
-             return View(reservation);
-           
+            return View(reservation);
         }
 
 

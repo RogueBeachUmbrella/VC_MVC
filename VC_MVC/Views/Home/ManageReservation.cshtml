@@ -1,8 +1,8 @@
 ﻿@model VC_MVC.Models.Reservation
 
-<form asp-controller="Home" asp-action="ManageReservation" method="post">
-
-    @if (@Model.Visitors != null && @Model.Visitors.LastName != null)
+<form asp-controller="Home" asp-action="ReservationLookup" method="post">
+    
+    @if (@Model.Visitors != null)
     {
         <div id="ViewReservation">
             <p>First Name: @Model.Visitors.FirstName /></p>
@@ -11,22 +11,24 @@
             <p>Start Date: @Model.StartDate /></p>
             <p>End Date: @Model.EndDate /></p>
 
-            <button type="submit" name="Edit" value="Edit">Edit</button>
+            <button type="submit" name="submitButton" value="Edit">Edit</button>
 
-            <button type="submit" name="Cancel" value="Cancel">Cancel</button>
+            <button type="submit" name="submitButton" value="Cancel">Cancel</button>
         </div>
     }
     else
     {
         <div id="FindReservation">
             <p>First Name: <input asp-for="Visitors.FirstName" /></p>
+            <p>Last Name: <input asp-for="Visitors.LastName" /></p>
+
+            <p>Phone number: <input asp-for="Visitors.PhoneNumber" /></p>
             <p>Reservation Number: <input asp-for="ReservationNumber" /></p>
 
-            <button type="submit" name="Find" value="Find">Find Reservation</button>
+            <button type="submit" name="submitButton" value="Find">Find Reservation</button>
 
         </div>
     }
-    <p>@ViewBag.Message</p>
 
-
+    
 </form>
