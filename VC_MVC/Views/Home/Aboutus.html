@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,6 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js" type="text/javascript"></script>
 
 </head>
+
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -21,13 +23,15 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
-                        @*<li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-        </li>*@
+                        @*
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>*@
 
-                        @*<li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </li>*@
+                        @*
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>*@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="MakeReservation">Make Reservation</a>
                         </li>
@@ -43,9 +47,6 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Data" asp-action="LoadInternalParks">Load Internal Park Subset</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" href="aboutus.html">About project</a>
-                        </li>
 
                     </ul>
                 </div>
@@ -54,17 +55,46 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-            @RenderBody()
+
+            <div class="text-center">
+                <h1 class="display-4">About Project</h1>
+                <p>Full Stack Web Application </p>
+            </div>
+
+            <!-- <div class="text-center"> -->
+            <div class="image">
+                <img src="img/Background.jpg" />
+            </div>
+            <!-- </div> -->
+
+            <div class="text-left">
+                <h2>Objective</h2>
+                <p>
+                    For this assignment we decided to make an interactive National Parks reservations website by integrating  the National Parks API and connecting to a Parks database. Jessica Greenlee and Armando Ramos leveraged what we learned in this course to retrieve the data and populate the table. Armando Ramos also created a dynamic pie chart using content from the database.
+                </p>
+                <p>Vibha Na created the Make and Manage Reservations Pages allowing our application to have a many to many relationship as well as creating the CRUD operators. </p>
+            </div>
+
+            <div class="text-center">
+
+            </div>
+
+            <div class="text-left">
+
+                <p>We believe that what we have learned and achieved in this course is very valuable. Our team was able to leverage the different concepts that we learned in the course to create a significant interactive application.  </p>
+                <p>
+
+                </p>
+            </div>
         </main>
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">ISM6225 - Group 3 - <a asp-area="" asp-controller="Home" asp-action="Index">Parks</a>
+        <div class="container">
+            &copy; 2021 - NationalParks - <a href="index.html">Home</a>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
+
 </body>
+
 </html>
