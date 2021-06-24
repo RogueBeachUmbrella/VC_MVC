@@ -39,7 +39,7 @@ namespace VC_MVC.Controllers
         //    _logger = logger;
         //}
 
-        public IActionResult Index(int id)
+        public IActionResult DNU_Index(int id)
         {
             return View();
         }
@@ -74,7 +74,7 @@ namespace VC_MVC.Controllers
         }
         
 
-        public IActionResult Park()
+        public IActionResult Index()
         {
             ViewBag.Message = "US National Parks";
             ParkViewModel mymodel = new ParkViewModel();
@@ -89,7 +89,7 @@ namespace VC_MVC.Controllers
 
 
         [HttpPost]
-        public IActionResult Park(ParkViewModel mymodel)
+        public IActionResult Index(ParkViewModel mymodel)
         {
             ViewBag.Message = "US National Parks";
             //ParkViewModel mymodel = new ParkViewModel();
@@ -101,6 +101,40 @@ namespace VC_MVC.Controllers
             mymodel.mapquesturl = MAPQUEST_BASE_URL;
             return View(mymodel);
         }
+
+
+
+        public ViewResult ParkDesignationChart()
+        {
+            List<string> ChartLabelsList = new List<string>();
+            List<int> ChartDataList = new List<int>();
+
+            var mydesignations = from p in _context.Parks group p by p.designation into c select new { designation = c.Key, count = c.Count() };
+
+            foreach (var item in mydesignations)
+            {
+                ChartLabelsList.Add((String.IsNullOrEmpty(item.designation) ? "--Not Designated--" : item.designation));
+                ChartDataList.Add(item.count);
+            }
+
+            string[] ChartLabels = ChartLabelsList.ToArray();
+            int[] ChartData = ChartDataList.ToArray();
+
+            ChartModel Model = new ChartModel
+            {
+                Charts = new List<Chart>
+                {
+                    new Chart{
+                    ChartType = "pie",
+                    Labels = String.Join(",", ChartLabels.Select(d => "'" + d + "'")),
+                    Data = String.Join(",", ChartData.Select(d => d)),
+                    Title = "US National Park Designations" }
+                }
+            };
+
+            return View(Model);
+        }
+
 
 
 

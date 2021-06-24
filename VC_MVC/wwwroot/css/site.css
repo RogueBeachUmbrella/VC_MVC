@@ -1,16 +1,19 @@
-﻿ines (41 sloc) 1.03 KB
+﻿/*ines (41 sloc) 1.03 KB*/
 
 body,
 html {
     height: 100%;
 }
 
+
 /*Set background image*/
 .container {
-    background-image: url('https://www.apple.com/newsroom/images/values/environment/standard/Apple_celebrates-national-parks-glacier-national-park_08242020_big.jpg.large.jpg');
-    height: 100%;
+    background-image: url('/img/large-glacier-national-park-light.jpg');
+    height: 150%;
+    width: 150%;
     background-position: center;
     background-size: cover;
+    font-weight: bold;
 }
 
 /* Position text in the middle */

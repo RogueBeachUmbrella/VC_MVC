@@ -7,7 +7,6 @@
     @if (@Model.Parks != null)
     {
         <p>Selected Park: @Model.Parks.name</p>
-        <p>ParkId:<label id="ParkId"> @Model.Parks.ParkId</label></p>
     }
     else
     {
@@ -33,11 +32,8 @@
     <p>Start Date: <input type="date" id="startdate" value="2021-08-01" asp-for="StartDate" /></p>
     <p>End Date: <input type="date" id="enddate" value="2021-08-10" asp-for="EndDate" /></p>
 
-    <p>
-        <button type="submit" name="reserveit" value="reserveit">Reserve</button>
+    <button type="submit" name="reserveit" value="reserveit">Reserve</button>
 
-        <button type="submit" name="cancel" value="cancel">Cancel</button>
-        </p>
-    <p>@ViewBag.Message</p>        
+    <button type="submit" name="cancel" value="cancel">Cancel</button>
 
 </form>

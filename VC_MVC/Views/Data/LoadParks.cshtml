@@ -1,7 +1,22 @@
-﻿@{
+﻿@model VC_MVC.Models.ParkLoadModel
+
+@{
+    ViewData["Title"] = "Parks Loading";
+
+}
+
+@{
     ViewData["Title"] = "Data Page";
 }
 
-<div class="text-center">
-    <h4 class="display-4">Loaded National Parks data using NPS API</h4>
+<div class="text-left">
+    <h4 class="display-5">Loaded @Model.parkCount.ToString() National Parks data using @Model.dataSource</h4>
+
+    <h3 class="display-5">Designation Counts</h3>
+    <ul>
+        @foreach (VC_MVC.Models.designationCount item in Model.designationList)
+        {
+            <li>@item.designation: @item.count.ToString();</li>
+        }
+    </ul>
 </div>

@@ -20,6 +20,26 @@ namespace VC_MVC.Models
         public string mapquesturl { get; set; }
     }
 
+
+
+    [NotMapped]
+    public class ParkLoadModel
+    {
+        public string dataSource { get; set; }
+        public int parkCount { get; set; }
+        public List<designationCount> designationList { get; set; }
+    }
+
+
+
+    [NotMapped]
+    public class designationCount
+    {
+        public string designation { get; set; }
+        public int count { get; set; }
+    }
+
+
     public class Park
     {
         [JsonProperty("id")]
