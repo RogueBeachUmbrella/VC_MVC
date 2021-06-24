@@ -194,7 +194,7 @@ namespace VC_MVC.Controllers
             return _rdm.Next(_min, _max).ToString();
         }
 
-        public IActionResult ManageReservation(Reservation reservation,string update, string edit, string find, string cancel)
+        public IActionResult ManageReservation(Reservation reservation,string update, string edit, string find, string cancel, string delete)
         {
 
             if (!string.IsNullOrEmpty(edit))
@@ -236,12 +236,33 @@ namespace VC_MVC.Controllers
                 return View(reservation);
             }
 
+            if (!string.IsNullOrEmpty(delete))
+            {
+                reservation.ReservationNumber = TempData["ReservationNo"].ToString();
+                TempData.Keep("ReservationNo");
+                reservation = _context.Reservation
+                                  .Where(c => c.ReservationNumber == reservation.ReservationNumber).FirstOrDefault();
+
+                _context.Reservation.Remove(reservation);
+
+                _context.SaveChanges();
+                reservation = null;
+                ViewBag.Message = "The reservation is cancelled!";
+                ModelState.Clear();
+                return View(reservation);
+            }
+
             if (!string.IsNullOrEmpty(find))
             {
                 reservation = _context.Reservation
                                    .Where(c => c.ReservationNumber == reservation.ReservationNumber)
                                    .Where(c => c.Visitors.FirstName == reservation.Visitors.FirstName)
                                    .FirstOrDefault();
+                if (reservation == null)
+                {
+                    ViewBag.Message = "No reservation found!";                 
+                    return View(reservation);
+                }
                 reservation.Parks = _context.Parks
                                    .Where(c => c.ParkId == reservation.ParkId).FirstOrDefault();
                 reservation.Visitors = _context.Visitor

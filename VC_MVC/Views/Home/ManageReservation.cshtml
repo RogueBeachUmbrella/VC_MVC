@@ -2,7 +2,7 @@
 
 <form asp-controller="Home" asp-action="ManageReservation" method="post">
 
-    @if (@Model.ParkId != null && @Model.VisitorId != null && @Model.ReservationNumber != null)
+    @if (@Model!= null && @Model.ParkId != null && @Model.VisitorId != null && @Model.ReservationNumber != null)
     {
     <div id="ViewReservation">
 
@@ -14,12 +14,12 @@
         <p>End Date: @Model.EndDate</p>
 
         <button type="submit" name="Edit" value="Edit">Edit</button>
-
-        <button type="submit" name="Cancel" value="Cancel">Cancel</button>
+        <button type="submit" name="delete" value="delete">Cancel Reservation</button>
+        <button type="submit" name="Cancel" value="Cancel">Return</button>
     </div>
     }
 
-    else if (@Model.ReservationNumber != null)
+    else if (@Model != null && @Model.ReservationNumber != null)
     {
         <div id="EditReservation">         
             <p>
