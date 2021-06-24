@@ -2,20 +2,42 @@
 
 <form asp-controller="Home" asp-action="ManageReservation" method="post">
 
-    @if (@Model.Visitors != null && @Model.Visitors.LastName != null)
+    @if (@Model.ParkId != null && @Model.VisitorId != null && @Model.ReservationNumber != null)
     {
-        <div id="ViewReservation">
-            <p>First Name: @Model.Visitors.FirstName /></p>
-            <p>Last Name:  @Model.Visitors.LastName/></p>
-            <p>Park Name: @Model.Parks.name /></p>
-            <p>Start Date: @Model.StartDate /></p>
-            <p>End Date: @Model.EndDate /></p>
+    <div id="ViewReservation">
 
-            <button type="submit" name="Edit" value="Edit">Edit</button>
+        <p>First Name: @Model.Visitors.FirstName</p>
+        <p>Last Name:  @Model.Visitors.LastName</p>
+        <p>Park Name: @Model.Parks.name</p>
+        <p>Reservation Number: @Model.ReservationNumber</p>
+        <p>Start Date: @Model.StartDate</p>
+        <p>End Date: @Model.EndDate</p>
 
-            <button type="submit" name="Cancel" value="Cancel">Cancel</button>
+        <button type="submit" name="Edit" value="Edit">Edit</button>
+
+        <button type="submit" name="Cancel" value="Cancel">Cancel</button>
+    </div>
+    }
+
+    else if (@Model.ReservationNumber != null)
+    {
+        <div id="EditReservation">         
+            <p>
+                Facility Type:
+                <select class="form-control" id="Parkfacility" name="Parkfacility" asp-for="facility">
+                    <option>Picnic Shelter</option>
+                    <option>Rental Boat</option>
+                    <option>Annual Parking</option>
+                    <option>Camp ground</option>
+                </select>
+            </p>
+            <p>Start Date: <input type="date" id="startdate" value="2021-08-01" asp-for="StartDate" /></p>
+            <p>End Date: <input type="date" id="enddate" value="2021-08-10" asp-for="EndDate" /></p>
+
+            <button type="submit" name="update" value="update">Update</button>
         </div>
     }
+
     else
     {
         <div id="FindReservation">
@@ -27,6 +49,5 @@
         </div>
     }
     <p>@ViewBag.Message</p>
-
 
 </form>

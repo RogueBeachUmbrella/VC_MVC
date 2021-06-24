@@ -139,7 +139,8 @@ namespace VC_MVC.Controllers
                 _context.Reservation.Add(reserve);
 
                 _context.SaveChanges();
-                ViewBag.Message = "reservation saved successfully!";
+
+                ViewBag.Message = $"reservation saved successfully! your confirmation number is {reserve.ReservationNumber} ";
                 ModelState.Clear();
             }
             if (!string.IsNullOrEmpty(cancel))
@@ -159,12 +160,39 @@ namespace VC_MVC.Controllers
             return _rdm.Next(_min, _max).ToString();
         }
 
-        public IActionResult ManageReservation(Reservation reservation, string edit, string find, string cancel)
+        public IActionResult ManageReservation(Reservation reservation,string update, string edit, string find, string cancel)
         {
 
             if (!string.IsNullOrEmpty(edit))
             {
+                reservation.ReservationNumber = TempData["ReservationNo"].ToString();
+                TempData.Keep("ReservationNo");
                 return View(reservation);
+            }
+
+            if (!string.IsNullOrEmpty(update))
+            {
+                reservation.ReservationNumber = TempData["ReservationNo"].ToString();
+                TempData.Keep("ReservationNo");
+                var reservationupdate = _context.Reservation
+                                  .Where(c => c.ReservationNumber == reservation.ReservationNumber).FirstOrDefault();
+               
+                reservationupdate.StartDate = reservation.StartDate;
+                reservationupdate.EndDate = reservation.EndDate;
+                reservationupdate.facility = Request.Form["Parkfacility"].ToString();
+
+                _context.Reservation.Update(reservationupdate);
+
+                _context.SaveChanges();
+
+                reservationupdate.Parks = _context.Parks
+                                  .Where(c => c.ParkId == reservationupdate.ParkId).FirstOrDefault();
+                reservationupdate.Visitors = _context.Visitor
+                                   .Where(c => c.VisitorId == reservationupdate.VisitorId).FirstOrDefault();
+
+                ViewBag.Message = "Reservation is updated!";
+
+                return View(reservationupdate);
             }
 
             if (!string.IsNullOrEmpty(cancel))
@@ -179,7 +207,12 @@ namespace VC_MVC.Controllers
                 reservation = _context.Reservation
                                    .Where(c => c.ReservationNumber == reservation.ReservationNumber)
                                    .Where(c => c.Visitors.FirstName == reservation.Visitors.FirstName)
-                                   .First();
+                                   .FirstOrDefault();
+                reservation.Parks = _context.Parks
+                                   .Where(c => c.ParkId == reservation.ParkId).FirstOrDefault();
+                reservation.Visitors = _context.Visitor
+                                   .Where(c => c.VisitorId == reservation.VisitorId).FirstOrDefault();
+                TempData["ReservationNo"] = reservation.ReservationNumber;
                 return View(reservation);
             }
              return View(reservation);
