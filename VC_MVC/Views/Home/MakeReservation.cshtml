@@ -7,7 +7,6 @@
     @if (@Model.Parks != null)
     {
         <p>Selected Park: @Model.Parks.name</p>
-        <p>ParkId:<label id="ParkId"> @Model.Parks.ParkId</label></p>
     }
     else
     {
@@ -16,8 +15,6 @@
 
     <p>First Name: <input asp-for="Visitors.FirstName" /></p>
     <p>Last Name: <input asp-for="Visitors.LastName" /></p>
-    <p>User Name: <input asp-for="Visitors.UserName" /></p>
-    <p>Password: <input asp-for="Visitors.Password" /></p>
     <p>Phone number: <input asp-for="Visitors.PhoneNumber" /></p>
     <p>Email Id: <input asp-for="Visitors.Email" /></p>
     <p>Address: <input asp-for="Visitors.Address" /></p>

@@ -165,9 +165,7 @@ namespace VC_MVC.Controllers
                         Email = reservation.Visitors.Email,
                         FirstName = reservation.Visitors.FirstName,
                         LastName = reservation.Visitors.LastName,
-                        Password = reservation.Visitors.Password,
-                        PhoneNumber = reservation.Visitors.PhoneNumber,
-                        UserName = reservation.Visitors.UserName
+                        PhoneNumber = reservation.Visitors.PhoneNumber
                     }
                 };
                 _context.Reservation.Add(reserve);
@@ -274,6 +272,10 @@ namespace VC_MVC.Controllers
            
         }
 
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
