@@ -85,6 +85,8 @@ namespace VC_MVC.Controllers
                         tempPark.name = park.name;
                         tempPark.designation = park.designation;
 
+                        _context.Parks.Add(park);
+
                         _context.Parks.Add(tempPark);
                         tempPark = null;
 
@@ -102,6 +104,7 @@ namespace VC_MVC.Controllers
                 }
 
                 await _context.SaveChangesAsync();
+                _context.SaveChanges();
 
 
                 //Initialize ViewModel
